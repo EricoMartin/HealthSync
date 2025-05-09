@@ -10,6 +10,25 @@ type Score = {
   endDateTime: string;
 };
 
+const convertDate = (isoDate: string) => {
+  const date = new Date(isoDate);
+
+  // Convert to a readable format (adjusts to user's local time zone)
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  };
+
+  const formatted = date.toLocaleString(undefined, options);
+
+  console.log(formatted); // Example output: "May 9, 2025, 11:59 AM"
+  return formatted;
+};
+
 export default function ScoresScreen() {
   const [scores, setScores] = useState<Score[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +73,7 @@ export default function ScoresScreen() {
           className="mb-4 rounded-2xl border border-green-200 bg-green-50 p-5 shadow-md">
           <Text className="text-lg font-semibold text-green-700">{item.type}</Text>
           <Text className="text-3xl font-bold text-green-900">{item.value}</Text>
-          <Text className="mt-1 text-sm text-gray-500">{item.endDateTime}</Text>
+          <Text className="mt-1 text-sm text-gray-500">{convertDate(item.endDateTime)}</Text>
         </View>
       ))}
     </ScrollView>
